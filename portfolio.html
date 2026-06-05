@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Apex Dev Studio – Software Engineering Team</title>
-  <meta name="description" content="Portfolio of Merah Lotfi Youcef, Messah Bilal Zinelabidin, and Dellaoui ayoub. A collaborative team of software developers crafting modern, high-performance web applications and UI/UX systems." />
+  <title>Merah Lotfi Youcef – Developer Portfolio & Team</title>
+  <meta name="description" content="Portfolio of Merah Lotfi Youcef, featuring team members Messah Bilal Zinelabidin and Dellaoui ayoub. Web developers crafting modern, high-performance web applications and UI/UX systems." />
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -39,11 +39,18 @@
       --font-mono: 'JetBrains Mono', monospace;
       --transition-fast: 0.2s ease;
       --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      --space-section-x: clamp(1rem, 4vw, 2rem);
+      --space-section-y: clamp(3.5rem, 8vw, 7rem);
+      --header-height: 4.5rem;
+      --content-max: 1200px;
+      --touch-min: 44px;
     }
 
     html {
       scroll-behavior: smooth;
+      scroll-padding-top: var(--header-height);
       background-color: var(--bg-darker);
+      overflow-x: hidden;
     }
 
     body {
@@ -56,15 +63,21 @@
       line-height: 1.6;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    img, svg, video {
+      max-width: 100%;
+      height: auto;
     }
 
     /* GRID OVERLAY FOR TECH LOOK */
     .grid-overlay {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+      inset: 0;
+      width: 100%;
+      height: 100%;
       background-size: 60px 60px;
       background-image: 
         linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
@@ -76,17 +89,18 @@
     /* GLOWING AMBIENT BALLS */
     .glow-sphere {
       position: absolute;
-      width: 400px;
-      height: 400px;
+      width: clamp(180px, 40vw, 400px);
+      height: clamp(180px, 40vw, 400px);
       border-radius: 50%;
       background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
       filter: blur(60px);
       pointer-events: none;
       z-index: 0;
+      will-change: transform;
     }
     
-    .sphere-1 { top: 15%; left: -100px; animation: float 12s infinite alternate ease-in-out; }
-    .sphere-2 { top: 60%; right: -150px; animation: float 15s infinite alternate-reverse ease-in-out; }
+    .sphere-1 { top: 15%; left: -15%; animation: float 12s infinite alternate ease-in-out; }
+    .sphere-2 { top: 60%; right: -20%; animation: float 15s infinite alternate-reverse ease-in-out; }
 
     @keyframes float {
       0% { transform: translateY(0) scale(1); }
@@ -112,10 +126,12 @@
       transition: border-color var(--transition-smooth), box-shadow var(--transition-smooth), transform var(--transition-smooth);
     }
 
-    .glass-card:hover {
-      border-color: var(--border-hover);
-      box-shadow: 0 12px 40px 0 rgba(6, 182, 212, 0.1);
-      transform: translateY(-4px);
+    @media (hover: hover) and (pointer: fine) {
+      .glass-card:hover {
+        border-color: var(--border-hover);
+        box-shadow: 0 12px 40px 0 rgba(6, 182, 212, 0.1);
+        transform: translateY(-4px);
+      }
     }
 
     /* BUTTONS */
@@ -124,9 +140,10 @@
       align-items: center;
       justify-content: center;
       gap: 0.75rem;
-      padding: 0.85rem 2rem;
+      min-height: var(--touch-min);
+      padding: 0.85rem clamp(1.25rem, 4vw, 2rem);
       font-family: var(--font-mono);
-      font-size: 0.85rem;
+      font-size: clamp(0.75rem, 2vw, 0.85rem);
       font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.08em;
@@ -178,23 +195,27 @@
     }
 
     .nav-container {
-      max-width: 1200px;
+      position: relative;
+      max-width: var(--content-max);
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1.25rem 2rem;
+      padding: 0.875rem var(--space-section-x);
+      min-height: var(--header-height);
     }
 
     .logo {
       font-family: var(--font-mono);
-      font-size: 1.25rem;
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
       font-weight: 700;
       text-decoration: none;
       color: var(--text-white);
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      min-height: var(--touch-min);
+      flex-shrink: 0;
     }
 
     .logo span {
@@ -202,10 +223,29 @@
     }
 
     .nav-links {
-      display: flex;
-      gap: 2.5rem;
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background: rgba(7, 6, 15, 0.98);
+      border-bottom: 1px solid var(--border-color);
+      padding: 1.25rem var(--space-section-x) 1.75rem;
+      flex-direction: column;
+      gap: 0.25rem;
       list-style: none;
-      align-items: center;
+      align-items: stretch;
+      max-height: calc(100dvh - var(--header-height));
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .nav-links.active {
+      display: flex;
+    }
+
+    .nav-links li {
+      width: 100%;
     }
 
     .nav-links a {
@@ -216,37 +256,70 @@
       text-transform: uppercase;
       letter-spacing: 0.05em;
       transition: color var(--transition-fast);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: var(--touch-min);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
     }
 
-    .nav-links a:hover {
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
       color: var(--secondary);
+      background: rgba(6, 182, 212, 0.06);
+    }
+
+    .nav-links .btn-outline,
+    .nav-links .nav-cta {
+      width: 100%;
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      padding: 0.75rem 1.25rem;
     }
 
     .menu-toggle {
-      display: none;
-      background: none;
-      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: var(--touch-min);
+      min-height: var(--touch-min);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
       color: var(--text-white);
       font-size: 1.5rem;
       cursor: pointer;
+      flex-shrink: 0;
+      transition: border-color var(--transition-fast), background var(--transition-fast);
+    }
+
+    .menu-toggle:hover,
+    .menu-toggle:focus-visible {
+      border-color: var(--secondary);
+      background: rgba(6, 182, 212, 0.06);
+    }
+
+    body.nav-open {
+      overflow: hidden;
     }
 
     /* HERO SECTION */
     .hero {
       position: relative;
-      min-height: 100vh;
+      min-height: 100dvh;
       display: flex;
       align-items: center;
-      padding: 8rem 2rem 4rem;
-      max-width: 1200px;
+      padding: calc(var(--header-height) + 2rem) var(--space-section-x) 3rem;
+      max-width: var(--content-max);
       margin: 0 auto;
       z-index: 2;
     }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 4rem;
+      grid-template-columns: 1fr;
+      gap: clamp(2rem, 5vw, 4rem);
       align-items: center;
       width: 100%;
     }
@@ -254,23 +327,29 @@
     .hero-content {
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
+      align-items: center;
+      text-align: center;
+      width: 100%;
     }
 
     .hero-badge {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
       gap: 0.5rem;
-      padding: 0.5rem 1rem;
+      max-width: 100%;
+      padding: 0.5rem clamp(0.75rem, 3vw, 1rem);
       background: rgba(99, 102, 241, 0.08);
       border: 1px solid rgba(99, 102, 241, 0.25);
       border-radius: 100px;
       color: var(--primary);
       font-family: var(--font-mono);
-      font-size: 0.75rem;
+      font-size: clamp(0.625rem, 2vw, 0.75rem);
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 2rem;
+      letter-spacing: 0.08em;
+      margin-bottom: clamp(1.25rem, 4vw, 2rem);
+      text-align: center;
     }
 
     .hero-badge-dot {
@@ -289,35 +368,47 @@
     }
 
     .hero h1 {
-      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-size: clamp(1.75rem, 5vw + 0.25rem, 4rem);
       font-weight: 800;
       line-height: 1.15;
       letter-spacing: -0.02em;
       margin-bottom: 1.5rem;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      hyphens: auto;
+      width: 100%;
     }
 
     .hero-desc {
-      font-size: 1.1rem;
+      font-size: clamp(0.95rem, 2.5vw, 1.1rem);
       color: var(--text-gray);
-      margin-bottom: 2.5rem;
+      margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
       max-width: 540px;
       font-weight: 300;
+      width: 100%;
     }
 
     .hero-actions {
       display: flex;
-      gap: 1.25rem;
+      flex-direction: column;
+      gap: 0.875rem;
       flex-wrap: wrap;
+      width: 100%;
+    }
+
+    .hero-actions .btn {
+      width: 100%;
     }
 
     /* HERO MOCK IDE TERMINAL */
     .hero-terminal {
       width: 100%;
-      max-width: 500px;
-      height: 380px;
+      max-width: min(500px, 100%);
+      height: clamp(260px, 45vh, 380px);
       font-family: var(--font-mono);
-      font-size: 0.85rem;
+      font-size: clamp(0.7rem, 2.2vw, 0.85rem);
       overflow: hidden;
+      margin: 0 auto;
       border-radius: var(--radius-md);
       border: 1px solid rgba(255, 255, 255, 0.08);
       background: rgba(7, 6, 15, 0.85);
@@ -358,15 +449,18 @@
 
     .terminal-body {
       flex: 1;
-      padding: 1.5rem;
+      padding: clamp(0.875rem, 3vw, 1.5rem);
       overflow-y: auto;
+      overflow-x: hidden;
       color: #a5b4fc;
       line-height: 1.6;
+      -webkit-overflow-scrolling: touch;
     }
 
     .terminal-line {
       display: flex;
       margin-bottom: 0.25rem;
+      min-width: 0;
     }
 
     .line-num {
@@ -379,6 +473,10 @@
 
     .line-content {
       white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+      min-width: 0;
+      flex: 1;
     }
 
     /* SYNTAX HIGHLIGHTING */
@@ -391,21 +489,23 @@
 
     /* SECTIONS COMMON */
     section {
-      padding: 7rem 2rem;
-      max-width: 1200px;
+      padding: var(--space-section-y) var(--space-section-x);
+      max-width: var(--content-max);
       margin: 0 auto;
       position: relative;
       z-index: 2;
+      width: 100%;
     }
 
     .section-header {
-      margin-bottom: 4rem;
+      margin-bottom: clamp(2rem, 5vw, 4rem);
       max-width: 600px;
+      width: 100%;
     }
 
     .section-subtitle {
       font-family: var(--font-mono);
-      font-size: 0.85rem;
+      font-size: clamp(0.75rem, 2vw, 0.85rem);
       color: var(--secondary);
       text-transform: uppercase;
       letter-spacing: 0.15em;
@@ -422,21 +522,21 @@
 
     .divider {
       height: 1px;
-      width: 100%;
+      width: calc(100% - (var(--space-section-x) * 2));
       background: linear-gradient(to right, rgba(99, 102, 241, 0.08), rgba(99, 102, 241, 0.2) 50%, rgba(99, 102, 241, 0.08));
-      max-width: 1200px;
+      max-width: var(--content-max);
       margin: 0 auto;
     }
 
     /* TEAM SECTION */
     .team-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 2rem;
+      grid-template-columns: 1fr;
+      gap: clamp(1.25rem, 3vw, 2rem);
     }
 
     .team-card {
-      padding: 2.5rem 2rem;
+      padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1.25rem, 3vw, 2rem);
       display: flex;
       flex-direction: column;
       height: 100%;
@@ -468,7 +568,8 @@
     }
 
     .team-name {
-      font-size: 1.35rem;
+      font-size: clamp(1.15rem, 3vw, 1.35rem);
+      overflow-wrap: break-word;
       font-weight: 700;
       color: var(--text-white);
       margin-bottom: 0.5rem;
@@ -529,6 +630,9 @@
       transition: color var(--transition-fast);
       display: flex;
       align-items: center;
+      justify-content: center;
+      min-width: var(--touch-min);
+      min-height: var(--touch-min);
     }
 
     .team-social-link:hover {
@@ -538,21 +642,29 @@
     /* SKILLS SECTION */
     .skills-wrapper {
       display: grid;
-      grid-template-columns: 280px 1fr;
-      gap: 4rem;
+      grid-template-columns: 1fr;
+      gap: clamp(1.5rem, 4vw, 4rem);
     }
 
     .skills-tabs {
       display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
+      flex-direction: row;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
     }
 
     .skill-tab-btn {
-      text-align: left;
-      padding: 1rem 1.5rem;
+      text-align: center;
+      flex: 1 0 auto;
+      min-width: max-content;
+      min-height: var(--touch-min);
+      padding: 0.875rem clamp(0.875rem, 3vw, 1.5rem);
       font-family: var(--font-mono);
-      font-size: 0.85rem;
+      font-size: clamp(0.75rem, 2vw, 0.85rem);
+      white-space: nowrap;
       background: transparent;
       color: var(--text-gray);
       border: 1px solid var(--border-color);
@@ -572,8 +684,8 @@
 
     .skills-content-pane {
       display: none;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
     }
 
     .skills-content-pane.active {
@@ -587,7 +699,7 @@
     }
 
     .skill-card {
-      padding: 1.75rem;
+      padding: clamp(1.25rem, 3vw, 1.75rem);
     }
 
     .skill-icon-row {
@@ -620,7 +732,8 @@
     }
 
     .skill-name {
-      font-size: 1.1rem;
+      font-size: clamp(1rem, 2.5vw, 1.1rem);
+      overflow-wrap: break-word;
       font-weight: 600;
       color: var(--text-white);
       margin-bottom: 0.5rem;
@@ -651,12 +764,12 @@
     /* PROJECTS SECTION */
     .projects-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 2rem;
+      grid-template-columns: 1fr;
+      gap: clamp(1.25rem, 3vw, 2rem);
     }
 
     .project-card {
-      padding: 2.25rem;
+      padding: clamp(1.5rem, 4vw, 2.25rem);
       display: flex;
       flex-direction: column;
       height: 100%;
@@ -665,7 +778,9 @@
     .project-meta {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 0.75rem;
       margin-bottom: 1.5rem;
     }
 
@@ -697,7 +812,8 @@
     }
 
     .project-card h3 {
-      font-size: 1.35rem;
+      font-size: clamp(1.15rem, 3vw, 1.35rem);
+      overflow-wrap: break-word;
       font-weight: 700;
       color: var(--text-white);
       margin-bottom: 0.75rem;
@@ -723,7 +839,7 @@
       font-size: 0.72rem;
       color: var(--text-gray);
       background: rgba(255, 255, 255, 0.03);
-      padding: 0.2rem 0.5rem;
+      padding: 0.25rem 0.5rem;
       border-radius: 4px;
       border: 1px solid rgba(255, 255, 255, 0.05);
     }
@@ -739,13 +855,15 @@
     .project-link-btn {
       color: var(--text-white);
       font-family: var(--font-mono);
-      font-size: 0.78rem;
+      font-size: clamp(0.72rem, 2vw, 0.78rem);
       text-transform: uppercase;
       letter-spacing: 0.05em;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
+      min-height: var(--touch-min);
+      padding: 0.5rem 0.25rem;
       transition: color var(--transition-fast);
     }
 
@@ -756,19 +874,19 @@
     /* ABOUT STATS MINI-GRID */
     .about-stats-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.5rem;
-      margin-top: 4rem;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-top: clamp(2rem, 5vw, 4rem);
     }
 
     .about-stat-card {
-      padding: 2rem 1.5rem;
+      padding: clamp(1.25rem, 3vw, 2rem) clamp(1rem, 2.5vw, 1.5rem);
       text-align: center;
     }
 
     .about-stat-number {
       font-family: var(--font-mono);
-      font-size: 2.25rem;
+      font-size: clamp(1.75rem, 5vw, 2.25rem);
       font-weight: 700;
       color: var(--primary);
       margin-bottom: 0.25rem;
@@ -788,37 +906,42 @@
 
     /* CONTACT SECTION */
     .contact-container {
-      max-width: 800px;
+      max-width: min(800px, 100%);
       margin: 0 auto;
-      padding: 4rem;
+      padding: clamp(1.75rem, 5vw, 4rem) clamp(1.25rem, 4vw, 2.5rem);
       text-align: center;
+      width: 100%;
     }
 
     .contact-container h2 {
-      font-size: 2.25rem;
+      font-size: clamp(1.5rem, 4vw, 2.25rem);
       font-weight: 700;
       margin-bottom: 1rem;
+      overflow-wrap: break-word;
     }
 
     .contact-container p {
       color: var(--text-gray);
       max-width: 500px;
-      margin: 0 auto 2.5rem;
-      font-size: 1rem;
+      margin: 0 auto clamp(1.5rem, 4vw, 2.5rem);
+      font-size: clamp(0.9rem, 2.5vw, 1rem);
     }
 
     .social-btn-container {
       display: flex;
       justify-content: center;
-      gap: 1.25rem;
+      gap: 0.875rem;
       flex-wrap: wrap;
+      width: 100%;
     }
 
     .social-pill {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 0.65rem;
-      padding: 0.75rem 1.5rem;
+      min-height: var(--touch-min);
+      padding: 0.75rem clamp(1rem, 3vw, 1.5rem);
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid var(--border-color);
       border-radius: 100px;
@@ -847,23 +970,28 @@
     /* FOOTER */
     footer {
       border-top: 1px solid rgba(255, 255, 255, 0.05);
-      padding: 2.5rem 2rem;
+      padding: clamp(1.75rem, 4vw, 2.5rem) var(--space-section-x);
       background: rgba(3, 3, 7, 0.9);
       position: relative;
       z-index: 2;
     }
 
     .footer-container {
-      max-width: 1200px;
+      max-width: var(--content-max);
       margin: 0 auto;
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
+      justify-content: center;
       align-items: center;
+      gap: 1rem;
+      text-align: center;
     }
 
     .footer-info {
-      font-size: 0.825rem;
+      font-size: clamp(0.75rem, 2vw, 0.825rem);
       color: var(--text-muted);
+      max-width: 100%;
+      overflow-wrap: break-word;
     }
 
     .footer-tech {
@@ -891,103 +1019,205 @@
       transform: translateY(0);
     }
 
-    /* RESPONSIVE DESIGN */
-    @media (max-width: 968px) {
-      .hero-grid {
-        grid-template-columns: 1fr;
-        gap: 3.5rem;
-        text-align: center;
+    /* ACCESSIBILITY */
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--secondary);
+      outline-offset: 2px;
+    }
+
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: var(--space-section-x);
+      z-index: 200;
+      padding: 0.75rem 1.25rem;
+      background: var(--primary);
+      color: var(--text-white);
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      text-decoration: none;
+      border-radius: var(--radius-sm);
+    }
+
+    .skip-link:focus {
+      top: 0.75rem;
+    }
+
+    /* RESPONSIVE — MOBILE FIRST (min-width) */
+    @media (min-width: 480px) {
+      .about-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
       }
-      
+
+      .skills-content-pane {
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+        gap: 1.5rem;
+      }
+    }
+
+    @media (min-width: 640px) {
+      .hero-actions {
+        flex-direction: row;
+        width: auto;
+      }
+
+      .hero-actions .btn {
+        width: auto;
+      }
+
+      .team-grid {
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+      }
+
+      .projects-grid {
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+      }
+    }
+
+    @media (min-width: 768px) {
       .hero-content {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+      .hero-badge {
+        justify-content: flex-start;
+        text-align: left;
+      }
+
+      .social-pill {
+        flex: 0 1 auto;
+      }
+    }
+
+    @media (min-width: 769px) {
+      .menu-toggle {
+        display: none;
+      }
+
+      .nav-links {
+        display: flex;
+        position: static;
+        width: auto;
+        background: transparent;
+        border-bottom: none;
+        padding: 0;
+        flex-direction: row;
+        gap: clamp(1.25rem, 3vw, 2.5rem);
         align-items: center;
+        max-height: none;
+        overflow: visible;
       }
 
-      .hero-desc {
-        margin-left: auto;
-        margin-right: auto;
+      .nav-links li {
+        width: auto;
       }
 
-      .hero-terminal {
-        margin: 0 auto;
+      .nav-links a {
+        justify-content: flex-start;
+        min-height: auto;
+        padding: 0;
+        background: transparent;
+      }
+
+      .nav-links .btn-outline,
+      .nav-links .nav-cta {
+        width: auto;
+        margin-top: 0;
+        font-size: 0.75rem;
+        padding: 0.6rem 1.25rem;
+      }
+    }
+
+    @media (min-width: 968px) {
+      .hero-grid {
+        grid-template-columns: 1.2fr 1fr;
+        text-align: left;
       }
 
       .skills-wrapper {
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
+        grid-template-columns: minmax(220px, 280px) 1fr;
       }
 
       .skills-tabs {
-        flex-direction: row;
-        overflow-x: auto;
-        padding-bottom: 0.5rem;
+        flex-direction: column;
+        overflow-x: visible;
+        padding-bottom: 0;
       }
 
       .skill-tab-btn {
-        flex: 1;
-        white-space: nowrap;
-        text-align: center;
-      }
-
-      .about-stats-grid {
-        grid-template-columns: repeat(2, 1fr);
+        text-align: left;
+        flex: none;
+        min-width: 0;
+        white-space: normal;
       }
     }
 
-    @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background: rgba(7, 6, 15, 0.98);
-        border-bottom: 1px solid var(--border-color);
-        padding: 2rem;
-        flex-direction: column;
+    @media (min-width: 1024px) {
+      .about-stats-grid {
+        grid-template-columns: repeat(4, 1fr);
         gap: 1.5rem;
       }
 
-      .nav-links.active {
-        display: flex;
-      }
-
-      .menu-toggle {
-        display: block;
-      }
-
-      .hero {
-        padding-top: 6.5rem;
-      }
-
-      .contact-container {
-        padding: 2.5rem 1.5rem;
-      }
-
       .footer-container {
-        flex-direction: column;
-        gap: 1.25rem;
-        text-align: center;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        text-align: left;
       }
     }
 
-    @media (max-width: 480px) {
-      .about-stats-grid {
-        grid-template-columns: 1fr;
+    @media (min-width: 1280px) {
+      :root {
+        --space-section-x: 2rem;
+      }
+    }
+
+    /* PERFORMANCE — REDUCE HEAVY EFFECTS ON SMALL SCREENS */
+    @media (max-width: 767px) {
+      .glow-sphere {
+        opacity: 0.45;
+        animation: none;
+        filter: blur(40px);
       }
 
-      .hero-actions {
-        width: 100%;
-        flex-direction: column;
+      .glass-card {
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
       }
 
-      .btn {
-        width: 100%;
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+
+      .glow-sphere {
+        animation: none;
+      }
+
+      .hero-badge-dot {
+        animation: none;
+        opacity: 1;
       }
     }
   </style>
 </head>
 <body>
+
+  <a href="#home" class="skip-link">Skip to main content</a>
 
   <!-- Background overlay grid -->
   <div class="grid-overlay"></div>
@@ -1001,10 +1231,10 @@
     <div class="nav-container">
       <a href="#" class="logo">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
-        <span>APEX</span>.STUDIO
+        <span>LOTFI</span>.DEV
       </a>
       
-      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+      <button class="menu-toggle" id="menuToggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
       </button>
 
@@ -1013,7 +1243,7 @@
         <li><a href="#skills">Skills</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="#about">Stats</a></li>
-        <li><a href="#contact" class="btn btn-outline" style="padding: 0.45rem 1.25rem; font-size: 0.75rem;">Get in Touch</a></li>
+        <li><a href="#contact" class="btn btn-outline nav-cta">Get in Touch</a></li>
       </ul>
     </div>
   </header>
@@ -1025,15 +1255,15 @@
         <div class="hero-content">
           <div class="hero-badge">
             <span class="hero-badge-dot"></span>
-            APEX DEV STUDIO • CHLEF, DZ
+            LOTFI YOUCEF MERAH • PORTFOLIO
           </div>
-          <h1>Crafting the Next Era of <span class="text-gradient">Web Architectures</span></h1>
+          <h1>Hi, I'm Merah <span class="text-gradient">Lotfi Youcef</span></h1>
           <p class="hero-desc">
-            We are a highly specialized development team of engineering students from Université Hassiba Ben Bouali de Chlef. We architect resilient systems, design interactive interfaces, and implement state-of-the-art full-stack solutions.
+            I am a 21-year-old computer science student and full-stack developer at Université Hassiba Ben Bouali de Chlef. Together with my team, we design and build next-generation web architectures, responsive interfaces, and robust systems.
           </p>
           <div class="hero-actions">
             <a href="#projects" class="btn btn-gradient">Explore Codebase</a>
-            <a href="#team" class="btn btn-outline">Meet the Engineers</a>
+            <a href="#team" class="btn btn-outline">Meet the Team</a>
           </div>
         </div>
 
@@ -1045,7 +1275,7 @@
               <div class="terminal-dot dot-minimize"></div>
               <div class="terminal-dot dot-maximize"></div>
             </div>
-            <span class="terminal-title">studio.config.js</span>
+            <span class="terminal-title">developer.config.js</span>
           </div>
           <div class="terminal-body" id="codeIDE">
             <!-- JavaScript typed in dynamically -->
@@ -1059,8 +1289,8 @@
     <!-- TEAM SECTION -->
     <section id="team" class="reveal">
       <div class="section-header">
-        <span class="section-subtitle">01 / Engineering Team</span>
-        <h2 class="section-title">Who We Are</h2>
+        <span class="section-subtitle">01 / Collaborative Power</span>
+        <h2 class="section-title">The Development Team</h2>
       </div>
 
       <div class="team-grid">
@@ -1079,7 +1309,7 @@
           <p class="team-role">Lead Full-Stack Developer</p>
           <p class="team-tagline">"Bridging frontend elegance with robust backend efficiency."</p>
           <p class="team-bio">
-            A 21-year-old computer science student at UHBC, driving studio architecture. Focused on building responsive frontends and linking them with resilient database schemas.
+            A 21-year-old computer science student at UHBC, driving system design and codebase architecture. Focused on building responsive frontends and linking them with resilient database schemas.
           </p>
           <div class="team-tech-list">
             <span class="team-tech-tag">React</span>
@@ -1095,36 +1325,7 @@
           </div>
         </div>
 
-        <!-- Frontend Developer Card -->
-        <div class="team-card glass-card">
-          <div class="team-avatar-wrapper">
-            <svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"></path>
-              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-              <path d="M2 12h20"></path>
-            </svg>
-          </div>
-          <h3 class="team-name">Messah Bilal Zinelabidin</h3>
-          <p class="team-role">Frontend & UI/UX Engineer</p>
-          <p class="team-tagline">"Designing smooth micro-interactions & fluid visual spaces."</p>
-          <p class="team-bio">
-            A developer dedicated to modern browser engines. Expert in CSS systems, dynamic frameworks, responsive rendering, and creating designs that look and feel incredibly premium.
-          </p>
-          <div class="team-tech-list">
-            <span class="team-tech-tag">HTML5</span>
-            <span class="team-tech-tag">CSS3</span>
-            <span class="team-tech-tag">JS ES6</span>
-            <span class="team-tech-tag">React</span>
-            <span class="team-tech-tag">UI/UX</span>
-          </div>
-          <div class="team-socials">
-            <a href="https://github.com/" target="_blank" class="team-social-link" title="GitHub">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.6 9.6 0 0 1 12 6.8c.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12c0-5.52-4.48-10-10-10z"/></svg>
-            </a>
-          </div>
-        </div>
-
-        <!-- Backend Developer Card -->
+        <!-- Backend Developer Card (now Bilal) -->
         <div class="team-card glass-card">
           <div class="team-avatar-wrapper">
             <svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -1133,7 +1334,7 @@
               <path d="M3 12V19C3 20.66 7.03 22 12 22C16.97 22 21 20.66 21 19V12"></path>
             </svg>
           </div>
-          <h3 class="team-name">Dellaoui Ayoub</h3>
+          <h3 class="team-name">Messah Bilal Zinelabidin</h3>
           <p class="team-role">Backend & Systems Engineer</p>
           <p class="team-tagline">"Architecting secure, rapid databases and runtime environments."</p>
           <p class="team-bio">
@@ -1145,6 +1346,35 @@
             <span class="team-tech-tag">REST APIs</span>
             <span class="team-tech-tag">Linux</span>
             <span class="team-tech-tag">Git</span>
+          </div>
+          <div class="team-socials">
+            <a href="https://github.com/" target="_blank" class="team-social-link" title="GitHub">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.6 9.6 0 0 1 12 6.8c.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.01 10.01 0 0 0 22 12c0-5.52-4.48-10-10-10z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Frontend Developer Card (now Ayoub) -->
+        <div class="team-card glass-card">
+          <div class="team-avatar-wrapper">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"></path>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+              <path d="M2 12h20"></path>
+            </svg>
+          </div>
+          <h3 class="team-name">Dellaoui Ayoub</h3>
+          <p class="team-role">Frontend & UI/UX Engineer</p>
+          <p class="team-tagline">"Designing smooth micro-interactions & fluid visual spaces."</p>
+          <p class="team-bio">
+            A developer dedicated to modern browser engines. Expert in CSS systems, dynamic frameworks, responsive rendering, and creating designs that look and feel incredibly premium.
+          </p>
+          <div class="team-tech-list">
+            <span class="team-tech-tag">HTML5</span>
+            <span class="team-tech-tag">CSS3</span>
+            <span class="team-tech-tag">JS ES6</span>
+            <span class="team-tech-tag">React</span>
+            <span class="team-tech-tag">UI/UX</span>
           </div>
           <div class="team-socials">
             <a href="https://github.com/" target="_blank" class="team-social-link" title="GitHub">
@@ -1432,7 +1662,7 @@
   <footer>
     <div class="footer-container">
       <div class="footer-info">
-        <p>&copy; 2026 Apex Dev Studio. Merah Lotfi, Messah Bilal, Dellaoui Ayoub. All rights reserved.</p>
+        <p>&copy; 2026 Merah Lotfi Youcef. Merah Lotfi, Messah Bilal, Dellaoui Ayoub. All rights reserved.</p>
       </div>
       <div class="footer-tech">
         <span>&lt;/&gt;</span> Built with HTML, CSS Grid, and JavaScript
@@ -1444,16 +1674,33 @@
     // MOBILE NAVIGATION MENU
     const menuToggle = document.getElementById('menuToggle');
     const navLinks = document.getElementById('navLinks');
-    
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function setNavOpen(isOpen) {
+      navLinks.classList.toggle('active', isOpen);
+      menuToggle.setAttribute('aria-expanded', String(isOpen));
+      document.body.classList.toggle('nav-open', isOpen);
+    }
+
     menuToggle.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
+      setNavOpen(!navLinks.classList.contains('active'));
     });
 
-    // Close menu when link is clicked
     document.querySelectorAll('.nav-links a').forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('active');
-      });
+      link.addEventListener('click', () => setNavOpen(false));
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && navLinks.classList.contains('active')) {
+        setNavOpen(false);
+        menuToggle.focus();
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 769 && navLinks.classList.contains('active')) {
+        setNavOpen(false);
+      }
     });
 
     // CODE IDE TYPING SIMULATION
@@ -1461,16 +1708,16 @@
     
     // Code text broken into lines for syntax highlighting representation
     const codeScript = [
-      { content: '// Developer Team Config Schema', isComment: true },
-      { content: 'const studio = {', keyword: 'const', property: 'studio', operator: '=', punctuation: ['{'] },
+      { content: '// Developer Profile & Team Config', isComment: true },
+      { content: 'const developer = {', keyword: 'const', property: 'developer', operator: '=', punctuation: ['{'] },
+      { content: '  name: "Merah Lotfi Youcef",', property: 'name', string: '"Merah Lotfi Youcef"' },
+      { content: '  role: "Lead Full-Stack Developer",', property: 'role', string: '"Lead Full-Stack Developer"' },
       { content: '  origin: "Université de Chlef, DZ",', property: 'origin', string: '"Université de Chlef, DZ"' },
-      { content: '  leadDeveloper: "Merah Lotfi Youcef",', property: 'leadDeveloper', string: '"Merah Lotfi Youcef"' },
-      { content: '  frontendEngineer: "Messah Bilal Zinelabidin",', property: 'frontendEngineer', string: '"Messah Bilal Zinelabidin"' },
-      { content: '  backendEngineer: "Dellaoui ayoub",', property: 'backendEngineer', string: '"Dellaoui ayoub"' },
-      { content: '  competencies: [', property: 'competencies', punctuation: ['['] },
-      { content: '    "React.js", "NodeJS / Express", "PHP", "MySQL"', string: '"React.js", "NodeJS / Express", "PHP", "MySQL"' },
-      { content: '  ],', punctuation: ['],'] },
-      { content: '  status: "Active & Deploying"', property: 'status', string: '"Active & Deploying"' },
+      { content: '  team: {', property: 'team', punctuation: ['{'] },
+      { content: '    backend: "Messah Bilal Zinelabidin",', property: 'backend', string: '"Messah Bilal Zinelabidin"' },
+      { content: '    frontend: "Dellaoui ayoub"', property: 'frontend', string: '"Dellaoui ayoub"' },
+      { content: '  },', punctuation: ['},'] },
+      { content: '  stack: ["React", "NodeJS", "PHP", "MySQL"]', property: 'stack', string: '["React", "NodeJS", "PHP", "MySQL"]' },
       { content: '};', punctuation: ['};'] }
     ];
 
@@ -1542,7 +1789,7 @@
             container.innerHTML = htmlContent;
             resolve();
           }
-        }, 15);
+        }, prefersReducedMotion ? 0 : 15);
       });
     }
 
@@ -1554,9 +1801,12 @@
       }
     }
 
-    // Run animation once on DOM load
     document.addEventListener('DOMContentLoaded', () => {
-      runCodeAnimation();
+      if (!prefersReducedMotion) {
+        runCodeAnimation();
+      } else if (ideContainer) {
+        ideContainer.innerHTML = '<div class="terminal-line"><span class="line-num">01</span><span class="line-content"><span class="token-comment">// Developer profile loaded</span></span></div>';
+      }
     });
 
     // SKILLS TAB SELECTOR FUNCTIONALITY
