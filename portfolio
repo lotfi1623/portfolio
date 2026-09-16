@@ -1575,6 +1575,30 @@
             <a href="https://study-point-by-breakfast.vercel.app/" target="_blank" rel="noopener noreferrer" class="project-link-btn">Live Demo ↗</a>
           </div>
         </div>
+
+        <!-- Project 3 -->
+        <div class="project-card glass-card">
+          <div class="project-meta">
+            <span class="project-branch">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><path d="M6 9a9 9 0 0 1 9 9"></path></svg>
+              production
+            </span>
+            <div class="project-git-stats">
+              <span class="git-stat">🚀 Live</span>
+            </div>
+          </div>
+          <h3>Brother Hood</h3>
+          <p>A premium calisthenics apparel storefront — bold branding, product-focused layout, and a polished shopping experience built for the street workout community.</p>
+          <div class="project-tags">
+            <span class="project-tag">React</span>
+            <span class="project-tag">E-commerce</span>
+            <span class="project-tag">Railway</span>
+            <span class="project-tag">UI/UX</span>
+          </div>
+          <div class="project-links">
+            <a href="https://brotherhood.up.railway.app/" target="_blank" rel="noopener noreferrer" class="project-link-btn">Live Demo ↗</a>
+          </div>
+        </div>
       </div>
     </section>
 
